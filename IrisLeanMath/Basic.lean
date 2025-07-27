@@ -1,15 +1,15 @@
 import Mathlib.Probability.Independence.Basic
 import Iris
 
-noncomputable section Independence
+noncomputable section
 
 open Iris ProbabilityTheory MeasureTheory
 
 variable {Ω : Type _} [MeasurableSpace Ω]
 
 /-- Real-valued random variable -/
-@[ext] structure RandomVariable (μ : Measure Ω) where
-  car : Ω → ℝ
+@[ext] structure RandomVariable (δ : Type _) (μ : Measure Ω) where
+  car : Ω → δ
 
 -- instance : FunLike (RandomVariable Ω δ) Ω δ where
 --   coe := (·.car)
@@ -18,7 +18,10 @@ variable {Ω : Type _} [MeasurableSpace Ω]
 -- instance : Coe (RandomVariable Ω δ) (Ω → δ) := ⟨(·.car)⟩
 -- instance : Coe (Ω → δ) (RandomVariable Ω δ) := ⟨.mk⟩
 
-instance independenceOFE {μ : Measure Ω} : OFE (RandomVariable μ) where
+namespace RealRandomVariableMax
+
+/-- OFE for ae equality of the random variables -/
+scoped instance aeOFE {μ : Measure Ω} : OFE (RandomVariable ℝ μ) where
   Equiv x y := x.car =ᵐ[μ] y.car
   Dist _ x y := x.car =ᵐ[μ] y.car
   dist_eqv {_} := {
@@ -29,8 +32,8 @@ instance independenceOFE {μ : Measure Ω} : OFE (RandomVariable μ) where
   equiv_dist := .symm <| forall_const _
   dist_lt H _ := H
 
-/-- Basic: CMRA of indepdenent random variables in a fixed measure μ which combines by max. -/
-instance independenceCMRA {μ : Measure Ω} : CMRA (RandomVariable μ) where
+/-- Basic: CMRA of random variables in a fixed measure μ which combines by max. -/
+scoped instance maxCMRA {μ : Measure Ω} : CMRA (RandomVariable ℝ μ) where
   pcore := .some
   op r₁ r₂ := ⟨fun s ↦ max (r₁.car s) (r₂.car s)⟩
   ValidN _ _ := True
@@ -53,7 +56,8 @@ instance independenceCMRA {μ : Measure Ω} : CMRA (RandomVariable μ) where
     rintro ⟨rfl⟩ y; refine ⟨y, .rfl⟩
   extend {_ _ y₁ y₂} _ H := ⟨y₁, y₂, H.trans <| .of_eq rfl, .rfl, .rfl⟩
 
-end Independence
+end RealRandomVariableMax
+
 
 --  generalize the codomain of the RV to another CMRA? What needs to be measurable
 
