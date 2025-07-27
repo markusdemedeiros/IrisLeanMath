@@ -1,0 +1,16 @@
+name = "iris-lean-math"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["IrisLeanMath"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+rev = "4.21.0"
+scope = "leanprover-community"
+
+[[lean_lib]]
+name = "IrisLeanMath"
