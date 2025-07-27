@@ -12,5 +12,9 @@ name = "mathlib"
 rev = "v4.21.0"
 scope = "leanprover-community"
 
+[[require]]
+name = "iris"
+git = "https://github.com/markusdemedeiros/iris-lean.git"
+
 [[lean_lib]]
 name = "IrisLeanMath"
