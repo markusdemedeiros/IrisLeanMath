@@ -9,7 +9,7 @@ autoImplicit = false
 
 [[require]]
 name = "mathlib"
-rev = "4.21.0"
+rev = "v4.21.0"
 scope = "leanprover-community"
 
 [[lean_lib]]
